@@ -1,4 +1,4 @@
-/ To be able to draw on our browser, we need to first have all the necessary methods to assist with out drawing. 
+// To be able to draw on our browser, we need to first have all the necessary methods to assist with out drawing. 
 
 // The way we do that is, we use the getContext() method on our canvas. This method returns an object which has lots of drawing methods in it. 
 
@@ -37,26 +37,41 @@ let food = {
   y : (Math.floor(Math.random() *
     rows)) * scale
 }
+
 // call our draw function every 100 ms
 let playGame = setInterval(draw,100);
 
 //control the snake direction
-// Let's initially make the snake move right
+// Let's initially make the snake move right  
 let d = "right";
 
+// Use the keyboard keys to control the direction of the snake 
+document.onkeydown = direction;
 
-// Function to draw our snake and the food
+function direction(event){
+  let key = event.keyCode;
+  if( key == 37 && d != "right"){
+      d = "left";
+  }else if(key == 38 && d != "down"){
+      d = "up";
+  }else if(key == 39 && d != "left"){
+      d = "right";
+  }else if(key == 40 && d != "up"){
+      d = "down";
+  }
+}
+// Function to draw our snake and the food 
 function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	// Draw snake
+	// Draw snake 
 	for (let i=0; i<snake.length; i++) {
 		ctx.fillStyle = "#fff";
 		ctx.strokeStyle = "red";
     ctx.fillRect(snake[i].x,snake[i].y, scale, scale);
-    ctx.strokeRect(snake[i].x,snake[i].y,scale,scale);
+    ctx.strokeRect(snake[i].x,snake[i].y,scale,scale);  
 	}
 	// console.log(snake);
-	// Draw food
+	// Draw food 
 	ctx.fillStyle = "#ff0";
 	ctx.strokeStyle = "green";
 	ctx.fillRect(food.x, food.y, scale, scale);
@@ -83,7 +98,7 @@ function draw() {
   if (snakeY < 0) {
     snakeY = canvas.height;
   }
-  // if the snake eats the food, it grows
+  // if the snake eats the food, it grows 
   if(snakeX == food.x && snakeY == food.y){
       score++;
       food = {
@@ -96,10 +111,26 @@ function draw() {
       snake.pop();
   }
   console.log(snake);
-  // New head position
+  // New head position 
   let newHead = {
       x : snakeX,
       y : snakeY
   }
-	snake.unshift(newHead);
+  console.log(snake);
+  if(eatSelf(newHead,snake)){
+  	clearInterval(playGame);
+  }
+  snake.unshift(newHead);
 }
+
+// check if snake is eating itself 
+function eatSelf(head,array){
+  for(let i = 0; i < array.length; i++){
+      if(head.x == array[i].x && head.y == array[i].y){
+          return true;
+      }
+  }
+  return false;
+}
+
+
