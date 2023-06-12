@@ -62,13 +62,13 @@ function direction(event){
 }
 // Function to draw our snake and the food 
 function draw() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.clearRect(0, 0, canvas.width, canvas.height); // to delete previously drawn
 	// Draw snake 
 	for (let i=0; i<snake.length; i++) {
 		ctx.fillStyle = "#fff";
 		ctx.strokeStyle = "red";
-    ctx.fillRect(snake[i].x,snake[i].y, scale, scale);
-    ctx.strokeRect(snake[i].x,snake[i].y,scale,scale);  
+    ctx.fillRect(snake[i].x,snake[i].y, scale, scale);// first two initioal point and others are for dimensions
+    ctx.strokeRect(snake[i].x,snake[i].y,scale,scale);  // for strokestyle coloring border
 	}
 	// console.log(snake);
 	// Draw food 
